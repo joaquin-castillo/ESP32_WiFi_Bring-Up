@@ -2,7 +2,7 @@
 My step-by-step tutorial for flashing the latest firmware onto the Espressif [ESP32](https://www.espressif.com/en/products/socs/esp32) WiFi and Bluetooth chip
 
 ## Introduction
-For the final project of my Stanford Grad class EE256 "Board Level Design", we had to design, assemble, and bring-up a sub-system module for an "Uber Radio", which is basically just a radio with a rediculous amount of functionality. The module my partner Kevin and I chose to reproduce was the WiFi module, enabling the radio to stream songs from the internet and update local time and weather.
+For the final project of my Stanford grad class EE256 "Board Level Design", we had to design, assemble, and bring-up a sub-system module for an "Uber Radio", which is basically just a radio with a rediculous amount of functionality. The module my partner Kevin and I chose to reproduce was the WiFi module, enabling the radio to stream songs from the internet and update local time and weather.
 
 Our starting place was the Adafruit [Airlift Breakout Board](https://www.adafruit.com/product/4201), which enables a microcontroller, like the [Feather M4 Express](https://www.adafruit.com/product/3857), with intetnet-acessing cabalibities. The Airlft interfaces with the Espressif [ESP32-WROOM-32](https://www.adafruit.com/product/3320) module, which contains the actually microprocessor, flash memory, antenna, etc. For this project we reproduced bith the circuitry of the Airlift and the ESP32-WROOM-32 module, essentially flattening it all out onto one board, including our own copper trace meandering inverted-F antenna. Our Github repository for this project can be found [here](https://github.com/EE156/kmarx-kmarx-kmarx-joaquin-castillo).
 
