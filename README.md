@@ -163,7 +163,7 @@ void loop() {
 ```
 
 ### Make the following electrical connections
-Insert Image here!
+![wiring_diagram_flashing_esp32](wiring_diagram_flashing_esp32.png)
 - Board Pin 12 to ESP32_ResetN
 - Board Pin 10 to ESP GPIO0
 - Board TX to RXI
