@@ -1,23 +1,23 @@
 # ESP32_WiFi_Bring-Up
-My step-by-step tutorial for flashing the latest firmware onto the Espressif [ESP32](https://www.espressif.com/en/products/socs/esp32) WiFi and Bluetooth chip
+My step-by-step tutorial for flashing the latest firmware onto the Espressif [ESP32](https://www.espressif.com/en/products/socs/esp32) WiFi and Bluetooth chip.
 
 ## Introduction
-For the final project of my Stanford grad class EE256 "Board Level Design", we had to design, assemble, and bring-up a sub-system module for an "Uber Radio", which is basically just a radio with a rediculous amount of functionality. The module my partner Kevin and I chose to reproduce was the WiFi module, enabling the radio to stream songs from the internet and update local time and weather.
+For the final project of my Stanford class EE256 "Board Level Design", we had to design, assemble, and bring-up a sub-system module for an "Uber Radio", which is basically just a radio with a rediculous number of functions. My partner Kevin and I chose to reproduce the WiFi module, enabling the radio to stream songs from the internet and update the local time and weather.
 
-Our starting place was the Adafruit [Airlift Breakout Board](https://www.adafruit.com/product/4201), which enables a microcontroller, like the [Feather M4 Express](https://www.adafruit.com/product/3857), with intetnet-acessing cabalibities. The Airlft interfaces with the Espressif [ESP32-WROOM-32](https://www.adafruit.com/product/3320) module, which contains the actually microprocessor, flash memory, antenna, etc. For this project we reproduced bith the circuitry of the Airlift and the ESP32-WROOM-32 module, essentially flattening it all out onto one board, including our own copper trace meandering inverted-F antenna. Our Github repository for this project can be found [here](https://github.com/EE156/kmarx-kmarx-kmarx-joaquin-castillo).
+Our starting place was the Adafruit [Airlift Breakout Board](https://www.adafruit.com/product/4201), which enables a microcontroller, like the [Feather M4 Express](https://www.adafruit.com/product/3857), with intetnet cabalibities. The Airlft interfaces with the Espressif [ESP32-WROOM-32](https://www.adafruit.com/product/3320) module, which contains the actually microprocessor, flash memory, antenna, etc. For this project we reproduced both the circuitry of the Airlift and the ESP32-WROOM-32 module, essentially flattening it all out onto one board, including our own copper trace meandering inverted-F antenna. Our Github repository for this project can be found [here](https://github.com/EE156/kmarx-kmarx-kmarx-joaquin-castillo).
 
-Because we did not use the off-the-shelf module from Espressif, we bought an ESP32 chip straight from the factory, with no firmware loaded onto it. The process for flashing this was not trivial, but not too complicated either. I will share my experience to hopefully expedite yours in the future!
+Because we did not use the off-the-shelf module from Espressif, we bought an ESP32 chip straight from the factory, with no firmware loaded onto it. The process for flashing this was not trivial, but not too complicated either.
 
-## What You'll Need
+I started by following this helpful [tutorial](https://learn.adafruit.com/upgrading-esp32-firmware/upgrade-external-esp32-airlift-firmware-2) by Adafruit. This tutorial is a whittled-down version of the parts of the Adafruit tutorial that worked for me, specifically for an external Airlift breakout, plus some extra nuggets of help.
+
+## What you'll need
+I used a Feather M4 Express for my microcontroller and I am using a Windows computer. For other microcontrollers, this guide can still be helpful, but you may not be able to follow verbatim. If you are a Mac user, please follow [this great tutorial](https://www.wikihow.com/Dispose-of-Old-Laptops) instead.
 - Arduino compatable microcontroller
 - Jumper wires
 - USB cable for the microcontroller
 - And your computer!
 
-## Guide
-I started by following this helpful [tutorial](https://learn.adafruit.com/upgrading-esp32-firmware/upgrade-external-esp32-airlift-firmware-2) by Adafruit. Unfortunately, I ran into a couple issues along the way, but the guide helped me through those as well. It's also a bit more general of a guide than just for the Airlift Breakout Board, so here is a whittled down version:
-
-### Summary
+## Summary
 - Download and install the Arduino IDE
 - Install approriate board cores
 - Program the Feather with the following code
@@ -26,13 +26,13 @@ I started by following this helpful [tutorial](https://learn.adafruit.com/upgrad
 - Install esptool.py
 - Flash firmware with esptool.py on command line
 
-### Download and install the Arduino IDE
-In order to configure the Feather as a USB-serial bridge, you need to program it to do so. A simple way to do this s through the Arduino IDE. Download the latest verion of the IDE [here](https://www.arduino.cc/en/software). Launch the installer and follow its prompts to complete installation.
+## Download and install the Arduino IDE
+In order to configure the Feather as a USB-serial bridge, you need to program it to do so. A simple way to do this is through the Arduino IDE. Download the latest verion of the IDE [here](https://www.arduino.cc/en/software). Launch the installer and follow its prompts to complete installation.
 
-### Install approriate board cores
-Next you must include the proper board cores in order for the Feather to be recognized by the IDE. Follow the steps on [this page](https://learn.adafruit.com/adafruit-feather-m4-express-atsamd51/setup) and the [page after](https://learn.adafruit.com/adafruit-feather-m4-express-atsamd51/using-with-arduino-ide) until you've installed the SAMD boards in the Board Manager.
+## Install appropriate board cores
+Next you must include the proper board cores in order for the Feather to be recognized by the IDE. Follow the steps on [this page](https://learn.adafruit.com/adafruit-feather-m4-express-atsamd51/setup) and the [page after](https://learn.adafruit.com/adafruit-feather-m4-express-atsamd51/using-with-arduino-ide) until you've installed the SAMD boards in the IDE Board Manager.
 
-### Program the Feather with the following code
+## Program the Feather with the following code
 Now when you plug the Feather into you computer you should see it pop up in the Port menu (Tools > Port:). Copy and paste the following code into the IDE and upload.
 
 ```
@@ -162,15 +162,17 @@ void loop() {
 }
 ```
 
-### Make the following electrical connections
-![wiring_diagram_flashing_esp32](wiring_diagram_flashing_esp32.PNG)
+## Make the following electrical connections
+- Board 3V to ESP32 VIN
+- Board GND to ESP32 GND
+- Board Pin 12 to ESP32 Reset
+- Board Pin 10 to ESP32 GPIO0
+- Board TX to ESP32 RXI
+- Board RX to ESP32 TXO
 
-- Board Pin 12 to ESP32_ResetN
-- Board Pin 10 to ESP GPIO0
-- Board TX to RXI
-- Board RX to TXO
+<img src="wiring_diagram_flashing_esp32.PNG" alt="wiring_diagram_flashing_esp32" width="500"/>
 
-Enusre you wiring matches these pin definitions and vice versa.
+Enusre your wiring matches these pin definitions and vice versa.
 ```
 #if defined(ADAFRUIT_FEATHER_M4_EXPRESS) || \
   defined(ADAFRUIT_FEATHER_M0_EXPRESS) || \
@@ -191,15 +193,18 @@ Enusre you wiring matches these pin definitions and vice versa.
   #define NEOPIXEL_PIN   8
 ```
 
-### Download the NINA firmware
+## Download the NINA firmware
 The latest version of the firmware should be [here](https://github.com/adafruit/nina-fw/releases/tag/1.7.4). The file you want will look something like `NINA_W102-1.7.4.bin`. Download and save it into a directory that maybe isn't your Downloads forlder, but it can be if you want to I guess. That's what I did, but it seems a little lazy.
 
-### Install esptool.py
+## Install esptool.py
 Hop onto your favorite terminal emulator. Install esptool.py by copying and running the following command into the command line.
 ```
 pip install esptool
 ```
 
-### Flash firmware with esptool.py on command line
-Once esptool is installed, navigate to the directory you saved the NINA firmware file in. Copy and run the following command into th ecommand line, replacing the COM port with the one for your Feather (you can find this in Device Manager > Ports (COM & LPT)) and the version number of the firmware file. If this runs sucessfully, congrats! You've just flashed the ESP32 chip. If not, you can find some great troubleshooting guidance at this [website](https://www.google.com/).
-
+## Flash firmware with esptool.py
+Once esptool is installed, still in the terminal, navigate to the directory you saved the NINA firmware file in. Copy and run the following command into the command line, replacing the `COM11` port with the one for your microcontroller (you can find this in Device Manager) and the version number `NINA_W102-1.7.4` with the one from your firmware file.
+```
+esptool.py --port COM11 --before no_reset --baud 115200 write_flash 0 NINA_W102-1.7.4.bin
+```
+If this runs sucessfully, congrats! You've just flashed the ESP32 chip. If not, you can find some great troubleshooting guidance at this [website](https://www.google.com/).
